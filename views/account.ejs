@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Mon compte</title>
+        <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/account.css">
+    </head>
+    <body>
+
+        <!-- Contenue de la page -->
+        <div class="d-flex flex-column vh-100">
+
+            <!-- Inclusion de la navbar -->
+            <%- include('parts/navbar', { user: user }); %>
+
+            <div class="flex-grow-1 image-container">
+                <div class="h-100 v-100 bg-body-tertiary mask d-flex align-items-center justify-content-center">
+
+                    <!-- Menu centré -->
+                    <div class="bg-body-tertiary p-3 rounded text-center">
+                        <h1><%=user.username%></h1>
+                        <% if(success.length != 0) { %>
+                        <div class="alert alert-success" role="alert"><%=success%></div>
+                        <% } %>
+                        <div class="d-grid gap-2">
+                            <button id="btnEditEmail" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editmail">Modifier l'email</button>
+                            <button id="btnEditPassword" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editpasswd">Modifier le mot de passe</button>
+                            <button id="btnDelete" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete">Supprimer le compte</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Les boites de dialogue -->
+
+        <div class="modal fade" id="editmail" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">Modification de l'email</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Erreur du serveur -->
+                        <% if(updateEmailError.length != 0) { %>
+                        <div class="alert alert-danger" role="alert"><%=updateEmailError%></div>
+                        <% } %>
+                        <!-- Formulaire de modification de l'email -->
+                        <form id="edit-mail-form" method="post" action="/user/update_email">
+                            <div class="mb-3">
+                                <label for="newEmail">Nouvelle adresse e-mail :</label>
+                                <input type="email" id="newEmail" name="newEmail" class="form-control" placeholder="name@example.com" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password">Entrez le mot de passe :</label>
+                                <input type="password" name="password" class="form-control" minlength="6" required>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary">Valider</button>
+                                <button type="reset" class="btn btn-primary">Réinitialiser</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="editpasswd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">Modification du mot de passe</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="boxError">
+                            <% if(updatePassError.length != 0) { %>
+                            <div class="alert alert-danger" role="alert"><%=updatePassError%></div>
+                            <% } %>
+                        </div>
+                        <!-- Formulaire pour modifier le mot de passe -->
+                        <form id="edit-password-form" method="post" action="/user/update_password">
+                            <div class="mb-3">
+                                <label for="oldPassword">Ancien mot de passe:</label>
+                                <input type="password" id="oldPassword" name="oldPassword" class="form-control" minlength="6" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="newPassword">Nouveau mot de passe:</label>
+                                <input type="password" id="newPassword" name="newPassword" class="form-control" minlength="6" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirmPassword">Confirmer le nouveau mot de passe:</label>
+                                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" minlength="6" required>
+                            </div>
+
+                            <div>
+                                <button type="submit" class="btn btn-primary">Valider</button>
+                                <button type="reset" class="btn btn-primary">Réinitialiser</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="delete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">Suppression du compte</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <% if(deleteError.length != 0) { %>
+                        <div class="alert alert-danger" role="alert"><%=deleteError%></div>
+                        <% } %>
+                        <!-- Formulaire pour supprimer le compte -->
+                        <form id="delete-form" method="post" action="/user/delete">
+                            <div class="mb-3">
+                                <label for="password">Mot de passe :</label>
+                                <input type="password" name="password" class="form-control" minlength="6" required>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary">Valider</button>
+                                <button type="reset" class="btn btn-primary">Réinitialiser</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/js/themer.js"></script>
+        <script src="/js/account.js"></script>
+
+        <% if(updateEmailError.length != 0) { %>
+        <script>btnEditEmail.click()</script>
+        <% } %>
+
+        <% if(updatePassError.length != 0) { %>
+        <script>btnEditPassword.click()</script>
+        <% } %>
+
+        <% if(deleteError.length != 0) { %>
+        <script>btnDelete.click()</script>
+        <% } %>
+
+    </body>
+</html>

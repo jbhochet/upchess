@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inscription</title>
+    <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/signup.css">
+</head>
+<body>
+
+<div class="d-flex flex-column vh-100">
+
+    <!-- Inclusion de la navbar -->
+    <%- include('parts/navbar', { user: null }); %>
+
+    <div class="flex-grow-1 image-container">
+        <div class="h-100 bg-body-tertiary mask d-flex align-items-center justify-content-center">
+
+            <!-- Menu centré -->
+            <div class="bg-body-tertiary p-4 rounded text-center">
+                <h1>Inscription</h1>
+                <div id="errorMsg">
+                    <% if(message) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <%=message%>
+                    </div>
+                    <% } %>
+                </div>
+                <form id="registration-form" method="post" action="/auth/signup">
+                    <div class="mb-3">
+                        <label class="form-label" for="username">Nom d'utilisateur :</label>
+                        <input type="text" id="username" name="username" minlength="3" maxlength="20" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="email">Adresse e-mail :</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="name@example.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="password">Mot de passe :</label>
+                        <input type="password" id="password" name="password" class="form-control" minlength="6" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="confirm-password">Confirmez le mot de passe :</label>
+                        <input type="password" id="confirm-password" name="confirm-password" class="form-control" minlength="6" required>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Valider</button>
+                        <button type="reset" class="btn btn-primary">Réinitialiser</button>
+                    </div>
+                </form>
+            </div>
+            <!-- Fin menu centré -->
+
+        </div>
+    </div>
+
+</div>
+
+
+<script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/themer.js"></script>
+<script src="/js/signup.js"></script>
+
+</body>
+</html>

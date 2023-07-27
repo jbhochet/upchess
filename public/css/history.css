@@ -1,0 +1,8 @@
+body > img[data-piece] {
+    z-index: 2000;
+}
+
+#boardparent {
+    margin-right: auto;
+    margin-left: auto;
+}

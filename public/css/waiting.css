@@ -1,0 +1,21 @@
+.image-container {
+    background-image: url("/img/background_01.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.mask {
+    --bs-bg-opacity: 0.25;
+}
+
+
+
+div.card{
+    background-color: dimgrey;
+
+}   
+
+#text{
+    color:#900C33;
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>UpChess</title>
+        <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/lib/chessboardjs/chessboard-1.0.0.min.css">
+        <link rel="stylesheet" href="/css/chessboard-theme.css">
+        <link rel="stylesheet" href="/css/history.css">
+    </head>
+    <body>
+    
+        <%- include("parts/navbar", { user: user }); %>
+
+        <div class="container mt-2">
+            <h1>Mes parties :</h1>
+            <div class="list-group">
+                <% for(const game of games) { %>
+                <a onclick="showGameView(this, '<%-game.pgn%>');" class="list-group-item list-group-item-action" aria-current="true">
+                    <div class="d-flex w-100">
+                        <h5 class="flex-grow-1 mb-1">
+                            <span class="bg-white text-black rounded px-1"><%=game.white%></span>
+                            contre
+                            <span class="bg-black text-white rounded px-1"><%=game.black%></span>
+                        </h5>
+                        <small><%=game.elapsed%></small>
+                    </div>
+                    <div class="d-flex w-100">
+                        <small class="flex-grow-1">Le <%=game.date%></small>
+                        <button class="btn btn-danger btn-sm" onclick="handleDeleteClick(event, '<%-game.id%>')">Supprimer</button>
+                    </div>
+                </a>
+                <% } %>
+            </div>
+
+        </div>
+
+        <!-- Modal qui va contenir le visualisateur de la partie -->
+        <div class="modal fade" id="boardModal" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5"></h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex flex-column">
+                    <div id="boardbox" class="d-flex flex-column justify-content-center flex-grow-1 overflow-hidden">
+                        <div id="boardparent">
+                            <div id="board" class="w-100"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-center mt-2">
+                        <button id="clickStart" class="btn btn-primary">Début</button>
+                        <button id="clickPrevious" class="btn btn-primary">Précédent</button>
+                        <button id="clickNext" class="btn btn-primary">Suivant</button>
+                        <button id="clickEnd" class="btn btn-primary">Fin</button>
+                    </div>
+                </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- Fin du modal -->
+
+        <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/lib/jquery/jquery.min.js"></script>
+        <script src="/lib/chessboardjs/chessboard-1.0.0.min.js"></script>
+        <script src="/js/themer.js"></script>
+        <script src="/js/chesspieces.js"></script>
+        <script type="module" src="/js/history.js"></script>
+    </body>
+</html>
+

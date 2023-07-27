@@ -1,0 +1,25 @@
+{
+    "source": {
+        "includePattern": ".+\\.js(doc|x)?$",
+        "include": ["."],
+        "exclude": ["node_modules" , "public", "docs"]
+    },
+    "plugins": ["plugins/markdown"],
+    "recurseDepth": 10,
+    "opts": {
+        "destination": "./docs/",
+        "recurse": true,
+        "readme": "./README.md",
+        "template": "node_modules/clean-jsdoc-theme",
+        "theme_opts": {
+            "static_dir": ["./public/favicon.ico"],
+            "homepageTitle": "UpChess Documentation",
+            "favicon": "public/favicon.ico",
+            "footer": "Projet L2U ~ Documentation interne ~ 2022-2023"
+        }
+    },
+    "markdown": {
+        "hardwrap": false,
+        "idInHeadings": true
+    }
+}

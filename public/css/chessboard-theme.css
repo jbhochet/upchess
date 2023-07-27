@@ -1,0 +1,37 @@
+/* Theme plateau clair */
+:root, [data-bs-theme=light] {
+    --white-square-background: #fff;
+    --white-space-color: #000;
+
+    --black-square-background: #9c0035;
+    --black-square-color: #fff;
+
+    --hightlight-color: #fff;
+}
+
+/* Theme plateau sombre */
+[data-bs-theme=dark] {
+    --white-square-background: #fff;
+    --white-space-color: #000;
+
+    --black-square-background: #6d0024;
+    --black-square-color: #fff;
+
+    --hightlight-color: #000;
+}
+
+/* Modification du css de chessboard avec les variables css des thèmes */
+
+.white-1e1d7 {
+    background-color: var(--white-square-background);
+    color: var(--white-space-color);
+}
+
+.black-3c85d {
+    background-color: var(--black-square-background);
+    color: var(--black-square-color);
+}
+
+.highlight1-32417, .highlight2-9c5d2 {
+    box-shadow: inset 0 0 3px 3px var(--hightlight-color);
+}

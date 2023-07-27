@@ -1,0 +1,13 @@
+{
+    "mongodb": {
+        "uri": "MONGODB_SERVEUR_URI",
+        "dbname": "NOM_DE_LA_BASE_DE_DONNEES"
+    },
+    "session": {
+        "secret": "CHAINE_SECRETE"
+    },
+    "email": {
+    	"email": "EMAIL@OUTLOOK",
+    	"password": "MOT_DE_PASSE"
+    }
+}

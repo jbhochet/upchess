@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>UpChess</title>
+        <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/index.css">
+    </head>
+    <body>
+
+        <div class="d-flex flex-column vh-100">
+
+            <!-- Inclusion de la navbar -->
+            <%- include('parts/navbar', { user: user }); %>
+
+            <!-- overlay -->
+            <div class="flex-grow-1 image-container">
+                <div class="h-100 v-100 bg-body-tertiary mask d-flex align-items-center justify-content-center">
+
+                    <!-- Menu centré -->
+                    <div class="bg-body-tertiary p-2 rounded text-center">
+                        <h1>UpChess</h1>
+                        <div class="d-grid gap-2">
+                            <% if(isInGame) { %>
+                            <a type="button" class="btn btn-primary" href="/game/game_room">Retour à la partie</a>
+                            <% } else { %>
+                            <button id="btnCreateGame" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createGameModal">Créer une partie</button>
+                            <button id="btnJoinGame" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#joinGameModal">Rejoindre une partie</button>
+                            <% } %>
+                        </div>
+                    </div>
+                    <!-- Fin menu centré -->
+
+                </div>
+            </div>
+            <!-- Fin overlay -->
+
+            <!-- Début Modal création de partie -->
+            <div class="modal fade" id="createGameModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">Créer une partie</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Formulaire de création -->
+                            <form method="post" action="/game/create">
+                                <!-- Message d'erreur du serveur -->
+                                <% if(createError.length != 0) { %>
+                                <div class="mb-3">
+                                    <div class="alert alert-danger" role="alert"><%= createError %></div>
+                                </div>
+                                <% } %>
+                                <!-- Fin message d'erreur du serveur -->
+                                <div class="mb-3">
+                                    <label for="time" class="form-label">Temps de réflexion: <span id="showTime"></span></label>
+                                    <input type="range" class="form-range" id="time" name="time" min="5" max="120" step="5" value="10">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="color" class="form-label">Couleur:</label>
+                                    <select id="color" name="color" class="form-select" aria-label="Default select example">
+                                        <option value="white" default>Blanc</option>
+                                        <option value="black">Noir</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Créer !</button>
+                            </form>
+                            <!-- Fin Formulaire de création -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Fin modal création de partie -->
+
+            <!-- Debut modal rejoindre partie -->
+            <div class="modal fade" id="joinGameModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">Rejoindre une partie</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Formulaire pour rejoindre -->
+                            <form method="post" action="/game/join">
+                                <!-- Message d'erreur du serveur -->
+                                <% if(joinError.length != 0) { %>
+                                <div class="mb-3">
+                                    <div class="alert alert-danger" role="alert"><%= joinError %></div>
+                                </div>
+                                <% } %>
+                                <!-- Fin message d'erreur du serveur -->
+                                <div class="mb-3">
+                                    <label for="time" class="form-label">Code de la partie:</label>
+                                    <input type="text" id="code" name="code" class="form-control" minlength="10" maxlength="10" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Rejoindre !</button>
+                            </form>
+                            <!-- Fin Formulaire pour rejoindre -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fin modal rejoindre partie -->
+
+        </div>
+
+
+        <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/js/themer.js"></script>
+        <script src="/js/index.js"></script>
+
+        <!-- Affiche les modal si il y a une erreur envoyé par le serveur -->
+        <% if(createError.length != 0) { %>
+        <script>btnCreateGame.click();</script>
+        <% } %>
+        
+        <% if(joinError.length != 0) { %>
+        <script>btnJoinGame.click();</script>
+        <% } %>
+
+    </body>
+</html>
+

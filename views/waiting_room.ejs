@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>UpChess</title>
+        <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/waiting.css">
+    </head>
+    <body>
+        <div class="d-flex flex-column vh-100">
+
+            <!-- Inclusion de la navbar -->
+            <%- include('parts/navbar', { user: user }); %>
+
+            <!-- overlay -->
+            <div class="flex-grow-1 image-container">
+                <div class="h-100 v-100 bg-body-tertiary mask d-flex align-items-center justify-content-center">
+
+                    <!-- Menu centré -->
+                    <div class="bg-body-tertiary p-2 rounded">
+                        <div class="d-grid gap-2">
+                            <div class="card" style="width: 18rem;">
+                                <img src="/img/logo.png" class="card-img-top" alt="logo">
+                                <div class="card-body">
+                                    <h2 class="card-title text-center" id="text">En attente...</h2>
+                                    <div class="d-grid gap-2">
+                                        <a href="#" class="btn btn-primary mt-2" onclick="copier('<%= code%>')">Code: <%= code%></a>
+                                    </div>
+                                    <div class="d-grid gap-2">
+                                        <a href="#" class="btn btn-danger mt-2" onclick="cancel()">Annuler la partie</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Fin menu centré -->
+
+                </div>
+            </div>
+            <!-- Fin overlay -->
+        </div>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/js/themer.js"></script>
+        <script src="/js/waiting.js"></script>
+    </body>
+</html>

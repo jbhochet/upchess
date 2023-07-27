@@ -1,0 +1,8 @@
+#boardparent {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#board {
+    touch-action: none;
+}

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <title>UpChess</title>
+        <link rel="stylesheet" href="/css/game.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/lib/chessboardjs/chessboard-1.0.0.min.css">
+        <link rel="stylesheet" href="/css/chessboard-theme.css">
+    </head>
+    <body>
+
+        <div class="d-flex flex-column mvh-100 vh-100">
+            <!-- Inclusion de la navbar -->
+            <%- include('parts/navbar', { user: user }); %>
+
+            <!-- Le reste de la page -->
+            <div class="container d-flex flex-row flex-grow-1 justify-content-center p-2 overflow-hidden">
+
+                <!-- partie droite -->
+                <div class="d-flex flex-column w-100 h-100 overflow-x-hidden">
+
+                    <div class="bg-body-secondary rounded p-2 mb-2">
+                        <p class="d-flex">
+                            <span class="flex-fill"><%=otherPlayer.username%></span>
+                            <span id="opponentTime"></span>
+                        </p>
+                    </div>
+                    
+                    <div id="boardbox" class="d-flex flex-column flex-grow-1 overflow-hidden justify-content-center mb-2">
+                        <div id="boardparent">
+                            <div id="board" class="w-100"></div>
+                        </div>
+                    </div>
+
+                    <div class="bg-body-secondary rounded p-2 mb-2">
+                        <p class="d-flex">
+                            <span class="flex-fill"><%=player.username%></span>
+                            <span id="myTime"></span>
+                        </p>
+                    </div>
+
+                    <button class="btn btn-primary w-100 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasLogs">
+                        Afficher les logs
+                    </button>
+
+                </div>
+                <!-- fin partie droite -->
+
+                <div class="vr mx-2 h-100 d-none d-md-block"></div>
+
+                <!-- partie gauche -->
+                <div class="w-100 h-100 offcanvas-md offcanvas-end" tabindex="-1" id="offcanvasLogs">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title">Logs</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasLogs" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body d-flex flex-column w-100 h-100 p-2">
+                        <h5 class="d-none d-md-block">Logs</h5>
+                        <div class="flex-grow-1 overflow-y-scroll">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Case départ</th>
+                                        <th scope="col">Case d'arrivée</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="logsTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <button class="btn btn-danger" onclick="abandon()">Abandonner</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- fin partie gauche -->
+
+            </div>
+            <!-- Fin reste de la page -->
+
+        </div>
+
+        <!-- Modal résultat de la partie -->
+        <div class="modal fade" data-bs-backdrop="static" id="gameoverModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">Partie terminée 🎉</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="gameoverResult" class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <a href="/" class="btn btn-primary">Retour à l'accueil</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal sélection promotion -->
+        <div class="modal fade" data-bs-backdrop="static" id="promotionModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">⚔ Promotion</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="promotion-form" action="#">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="promotionRadio" value="q" checked>
+                                <label class="form-check-label" for="reine">
+                                    Reine
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="promotionRadio" value="n">
+                                <label class="form-check-label" for="knight">
+                                    Cavalier
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="promotionRadio" value="b">
+                                <label class="form-check-label" for="bishop">
+                                    Fou
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="promotionRadio" value="r">
+                                <label class="form-check-label" for="rook">
+                                    Tour
+                                </label>
+                            </div>
+                            <div class="mt-3">
+                                <button type="submit" class="btn btn-primary">Choisir</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="/lib/jquery/jquery.min.js"></script>
+        <script src="/lib/chessboardjs/chessboard-1.0.0.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/js/themer.js"></script>
+        <script src="/js/chesspieces.js"></script>
+
+        <!-- On définie la couleur qui sera accessible par le script js -->
+        <script>
+            let isWhite = <%-isWhite%>;
+        </script>
+        <script src="/js/game.js"></script>
+    </body>
+</html>
